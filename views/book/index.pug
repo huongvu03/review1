@@ -1,0 +1,30 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Book List
+  body 
+    button 
+      a(href="/book/create") Create Book
+    h4  Book List
+    table
+      thead
+        tr
+          th  Title
+          th Publication_Year
+          th Genre
+          th Action
+      tbody
+        if books != null
+          each b in books
+            tr
+              td=b.title
+              td=b.publication_year
+              td=b.genre
+              td
+                a(href=`/book/update/${b._id}`) Update |
+                a(href=`/book/delete/${b._id}`) Delete
+        else
+          tr
+            td(colspan="5") no book
