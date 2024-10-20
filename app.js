@@ -4,13 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var booksRouter = require('./routes/book');
+var movieRouter = require('./routes/movie');
 
 const mongoose = require("mongoose");
 //mongoose.connect("mongodb://localhost:27017/day8DB")
-mongoose.connect("mongodb+srv://huongvu:123@hdb1.4wtpp.mongodb.net/day8DB?retryWrites=true&w=majority&appName=HDB1")
+mongoose.connect("mongodb+srv://huongvu:123@hdb1.4wtpp.mongodb.net/movieDB?retryWrites=true&w=majority&appName=HDB1")
 .then(() => console.log("Connected to MongoDB"))
 .catch(err=> console.log(err));
 
@@ -27,9 +25,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/book', booksRouter);
+app.use('/movie', movieRouter);
+app.use('/', movieRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,123 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    title Update Seats
+    style.
+      /* Height of the HTML document */
+      html {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background:
+          url("https://cdn.pixabay.com/photo/2018/02/27/15/40/background-3185765_1280.jpg");
+        background-attachment: fixed;
+        background-position: relative;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      /* For the center container */
+      .center-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      /* Login box */
+      .login-box {
+        width: 400px;
+        padding: 40px;
+        background: rgba(226, 53, 157, 0.5);
+        box-sizing: border-box;
+        box-shadow: 0 15px 25px rgba(226, 53, 157, 0.5);
+        border-radius: 10px;
+      }
+      /* Heading inside the login box */
+      .login-box h1 {
+        margin: 0 0 30px;
+        padding: 0;
+        color: #520340;
+        text-align: center;
+      }
+      /* User input box */
+      .login-box .user-box {
+        position: relative;
+      }
+      /* User input */
+      .login-box .user-box input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      /* Label above the user input */
+      .login-box .user-box label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      /* Button styling */
+      .login-box-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #520340;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      /* Hover effect for the button */
+      .login-box-button:hover {
+        background-color: #3d0c2d;
+      }
+    script.
+      function updateAvailableSeats() {
+        const movieSelect = document.querySelector('select[name="movieName"]');
+        const availableSeatsInput = document.querySelector('input[name="availableSeats"]');
+        const movieIdInput = document.querySelector('input[name="_id"]');
+
+        const selectedOption = movieSelect.options[movieSelect.selectedIndex];
+        // Lấy số ghế có sẵn từ thuộc tính data
+        const availableSeats = selectedOption ? selectedOption.getAttribute('data-available-seats') : '';
+        
+        // Cập nhật giá trị vào input
+        availableSeatsInput.value = availableSeats;
+
+        // Cập nhật ID bộ phim vào hidden input
+        const movieId = selectedOption ? selectedOption.getAttribute('data-id') : '';
+        movieIdInput.value = movieId;
+      }
+
+      // Lắng nghe sự kiện thay đổi của dropdown
+      window.onload = function() {
+        const movieSelect = document.querySelector('select[name="movieName"]');
+        movieSelect.addEventListener('change', updateAvailableSeats);
+      }
+  body
+    .center-container
+      .login-box
+        h1 Update Seats
+        form(action=`/movie/update`, method="POST")
+          // Dropdown for selecting a movie
+          .user-box
+            select(name="movieName", required)
+              if movies && movies.length > 0
+                option(value="", disabled selected) Select a movie
+                each movie in movies
+                  option(value=movie.movieName, data-available-seats=movie.availableSeats, data-id=movie._id)= movie.movieName
+              else 
+                option(value="", disabled selected) No movies available
+          br
+          br
+          // Input for entering new available seats
+          .user-box
+            input(type="number", name="availableSeats", required, placeholder="Available Seats")
+            label(for="availableSeats") New Available Seats
+          // Hidden input for movie ID
+          input(type="hidden", name="_id")
+          // Submit button
+          button.login-box-button(type="submit")
+            | Submit

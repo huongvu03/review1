@@ -1,0 +1,121 @@
+doctype html
+html(lang="en")
+  head
+    title Movie List
+    link(rel="stylesheet", href="style.css")
+  style.
+    html {
+      height: 100%;
+    }
+    body {
+      text-align: center;
+      background:
+        url("https://cdn.pixabay.com/photo/2017/01/12/17/30/warmand-cozy-1975215_1280.jpg");
+      background-attachment: fixed;
+      background-position: relative;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100%;
+      margin: 0;
+      font-size: 20px;
+    }
+    .container {
+      top: 30%;
+      left: 50%;
+      width: 50em;
+      height: 18em;
+      transform: translate(-50%, -50%);
+      position: fixed;
+      color: white;
+      font-size: 20px;
+    }
+    .button {
+      background-color: #000;
+      border: 0.5px solid crimson;
+      border-radius: 10px;
+      color: white;
+      padding: 8px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .movie-details-box, .movie-category-box {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+   .button-group div{
+      display: flex; /* Để các nút nằm ngang */
+      justify-content: center; /* Canh giữa theo chiều ngang */
+      gap: 10px; /* Khoảng cách giữa các nút */
+      margin-top: 20px;
+    }
+    .button-group button {
+      background-color: #8b0000;
+      border: 3px solid black;
+      cursor: pointer;
+      margin: 5px;
+    }
+    
+    #movie-category ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    #movie-category ul li {
+      cursor: pointer;
+      margin-bottom: 5px;
+    }
+    h4 {
+      color: #fcfbfb;
+    }
+  
+  body
+    .container
+      h1 Welcome to the Wonderland Widescreen
+      a(href="/movie/create") 
+        button.button Add Movie
+      a(href="/movie/bookseat") 
+        button.button Book Seats
+      a(href="/movie/delete") 
+        button.button Delete Movie
+      a(href="/movie/update") 
+        button.button Update Seats
+      br
+      br
+      .button-group
+        h4 Click each category to view movies.&#128071;
+        div
+          form(action="/movie/action")
+            input.button(type="submit", value="Action")
+          form(action="/movie/comedy", method="GET")
+            input.button(type="submit", value="Comedy")
+          form(action="/movie/drama", method="GET")
+            input.button(type="submit", value="Drama")
+
+      .movie-category-box
+      if moviesCate && moviesCate.length > 0
+        ul
+          each movie in moviesCate
+            li
+              a(href=`/movie/details/${movie._id}`)= movie.movieName + ' (' + movie.category + ')'
+        p No movies found.
+      
+      .movie-details-box
+      if movie && movie.length > 0
+        ul
+          each movie in movie
+            li=`Name: ${movie.movieName}`
+            li=`Des: ${movie.description}`
+            li=`Actors: ${movie.actors}`
+            li=`Seat: ${movie.availableSeats}`
+      else
+        p 
+        
+
+      br
+      br
+
+    

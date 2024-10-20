@@ -1,0 +1,136 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    title Delete Movie
+    style.
+      html {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background:
+          url("https://cdn.pixabay.com/photo/2018/02/27/15/40/background-3185765_1280.jpg");
+        background-attachment: fixed;
+        background-position: relative;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      /* For the center container */
+      .center-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      /* Login box */
+      .login-box {
+        width: 400px;
+        padding: 40px;
+        background: rgba(226, 53, 157, 0.5);
+        box-sizing: border-box;
+        box-shadow: 0 15px 25px rgba(226, 53, 157, 0.5);
+        border-radius: 10px;
+      }
+      .login-box h1 {
+        margin: 0 0 30px;
+        padding: 0;
+        color: #520340;
+        text-align: center;
+      }
+      /* User input box */
+      .login-box .user-box {
+        position: relative;
+      }
+      .login-box .user-box input {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        margin-bottom: 30px;
+        border: none;
+        border-bottom: 1px solid #fff;
+        outline: none;
+        background: transparent;
+      }
+      .login-box .user-box label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        pointer-events: none;
+        transition: 0.5s;
+      }
+      .login-box .user-box input:focus ~ label,
+      .login-box .user-box input:valid ~ label {
+        top: -20px;
+        left: 0;
+        color: #520340;
+        font-size: 12px;
+      }
+      /* Submit button */
+      .login-box-button {
+        position: relative;
+        display: inline-block;
+        padding: 10px 20px;
+        color: #ee0754;
+        font-size: 16px;
+        text-decoration: none;
+        text-transform: uppercase;
+        overflow: hidden;
+        transition: 0.5s;
+        margin-top: 40px;
+        letter-spacing: 4px;
+        background: #520340;
+        border-radius: 5px;
+        box-shadow: 0 0 5px #520340, 0 0 25px #520340, 0 0 50px #520340,
+                    0 0 100px #520340;
+      }
+      .login-box-button:hover {
+        background: #fff;
+        color: #520340;
+      }
+    script.
+      function updateMovieId() {
+        const movieSelect = document.querySelector('select[name="movieName"]');
+        const movieIdInput = document.querySelector('input[name="_id"]');
+
+        const selectedOption = movieSelect.options[movieSelect.selectedIndex];
+        // Lấy ID bộ phim từ thuộc tính data
+        const movieId = selectedOption ? selectedOption.getAttribute('data-id') : '';
+
+        // Cập nhật giá trị vào hidden input
+        movieIdInput.value = movieId;
+      }
+
+      // Lắng nghe sự kiện thay đổi của dropdown
+      window.onload = function() {
+        const movieSelect = document.querySelector('select[name="movieName"]');
+        movieSelect.addEventListener('change', updateMovieId);
+      }
+  body
+    .center-container
+      .login-box
+        h2 Delete Movie
+        form(action="/movie/delete", method="POST")
+          .user-box
+            // Dropdown for selecting a movie to delete
+            select(name="movieName")
+              if movies && movies.length > 0
+                option(value="", disabled selected) Select a movie
+                each movie in movies
+                  option(value=movie.movieName, data-id=movie._id)= movie.movieName
+              else 
+                option(value="", disabled selected) No movies available
+            // Hidden input to store the selected movie ID
+            input(type="hidden", name="_id", readonly)
+          // Submit button to delete a movie
+          button.login-box-button(type="submit")
+            span
+            span
+            span
+            span
+            | Submit
